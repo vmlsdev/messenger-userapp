@@ -1,14 +1,13 @@
 /**
  * 
  */
-package com.lukesukhanov.messenger.userapp.net;
+package com.vmlsdev.messenger.userapp.net;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
  * 
- * @author Luke Sukhanov
  */
 public final class Request {
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.lukesukhanov.messenger.userapp.net;
+package com.vmlsdev.messenger.userapp.net;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,6 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  *
- * @author Luke Sukhanov
  */
 public final class ServerRequestReceiver implements Runnable {
 

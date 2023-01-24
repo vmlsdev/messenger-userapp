@@ -1,11 +1,10 @@
 /**
  * 
  */
-package com.lukesukhanov.messenger.userapp;
+package com.vmlsdev.messenger.userapp;
 
 /**
  *
- * @author Luke Sukhanov
  */
 public final class ServerRequestHandler implements Runnable {
 

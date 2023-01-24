@@ -3,14 +3,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.lukesukhanov</groupId>
+	<groupId>com.vmlsdev</groupId>
 	<artifactId>messenger-userapp</artifactId>
 	<version>0.0-SNAPSHOT</version>
 
 	<name>messenger-userapp</name>
-	<url>https://github.com/lukesukhanov/messenger-userapp</url>
+	<url>https://github.com/vmlsdev/messenger-userapp</url>
 
 	<developers>
+	<developer>
+			<id>viktormordovets</id>
+			<name>Viktor Mordovets</name>
+			<email>mordovets.viktor@gmail.com</email>
+			<properties>
+				<active>true</active>
+			</properties>
+		</developer>
 		<developer>
 			<id>lukesukhanov</id>
 			<name>Luke Sukhanov</name>
@@ -23,9 +31,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>18</maven.compiler.source>
-		<maven.compiler.target>18</maven.compiler.target>
-		<maven.compiler.release>18</maven.compiler.release>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.release>17</maven.compiler.release>
 	</properties>
 
 	<dependencies>

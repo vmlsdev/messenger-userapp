@@ -1,11 +1,10 @@
 /**
  * 
  */
-package com.lukesukhanov.messenger.userapp.gui;
+package com.vmlsdev.messenger.userapp.gui;
 
 /**
  *
- * @author Luke Sukhanov
  */
 public final class MessagePrinter implements Runnable {
 

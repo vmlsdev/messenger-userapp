@@ -1,4 +1,4 @@
-package com.lukesukhanov.messenger.userapp;
+package com.vmlsdev.messenger.userapp;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -7,15 +7,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.lukesukhanov.messenger.userapp.gui.MessagePrinter;
-import com.lukesukhanov.messenger.userapp.gui.MessageReader;
-import com.lukesukhanov.messenger.userapp.net.ClientRequestSender;
-import com.lukesukhanov.messenger.userapp.net.Request;
-import com.lukesukhanov.messenger.userapp.net.ServerRequestReceiver;
+import com.vmlsdev.messenger.userapp.gui.MessagePrinter;
+import com.vmlsdev.messenger.userapp.gui.MessageReader;
+import com.vmlsdev.messenger.userapp.net.ClientRequestSender;
+import com.vmlsdev.messenger.userapp.net.Request;
+import com.vmlsdev.messenger.userapp.net.ServerRequestReceiver;
 
 /**
  *
- * @author Luke Sukhanov
  */
 public final class App {
 	

@@ -14,9 +14,6 @@ import java.util.concurrent.BlockingQueue;
  */
 public final class ServerRequestReceiver implements Runnable {
 
-	// Pause period while getting input stream from server.
-	private static final int SLEEPING_TIME_MILLIS = 1000;
-
 	// Server information.
 	private final String serverIp;
 	private final int serverIncomingPort;
@@ -33,21 +30,6 @@ public final class ServerRequestReceiver implements Runnable {
 		this.serverIp = serverIp;
 		this.serverIncomingPort = serverIncomingPort;
 		this.serverRequests = serverRequests;
-	}
-
-	/*
-	 * Attempts to get input stream from socket.
-	 */
-	private static InputStream getInputStreamFrom(Socket socket) throws InterruptedException {
-
-		while (!Thread.interrupted()) {
-			try {
-				return socket.getInputStream();
-			} catch (IOException e) {
-				Thread.sleep(SLEEPING_TIME_MILLIS);
-			}
-		}
-		throw new InterruptedException();
 	}
 
 	/**
@@ -67,16 +49,16 @@ public final class ServerRequestReceiver implements Runnable {
 		}
 
 		// Getting input stream from socket.
-		InputStream in;
+		InputStream in = null;
 		try {
-			in = getInputStreamFrom(socket);
-		} catch (InterruptedException e) {
-			return; // Normal termination.
+			in = socket.getInputStream();
+		} catch (IOException e) {
+			// TODO
 		}
 
 		// Receiving requests from server and putting them into queue.
 		try {
-			while (!Thread.interrupted()) {
+			while (true) {
 				serverRequests.put(Request.decode(in));
 			}
 		} catch (InterruptedException e) {

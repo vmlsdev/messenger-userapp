@@ -39,7 +39,7 @@ public final class Request {
 		this.message = message;
 	}
 
-	public static void encode(OutputStream out) {
+	public static void encode(Request request, OutputStream out) {
 
 	}
 
@@ -99,4 +99,5 @@ public final class Request {
 	public enum Type { REGISTRATION, ACTIVIZATION, FRIENDSHIP, MESSAGE, SHUTDOWN }
 	
 	public enum Status { ACCEPTED, DECLINED, INCOMING }
+	
 }

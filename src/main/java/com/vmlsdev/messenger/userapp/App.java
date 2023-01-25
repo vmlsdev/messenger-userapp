@@ -20,8 +20,7 @@ public final class App {
 
 	// Server information.
 	private static final String SERVER_IP = "127.0.0.1";
-	private static final int SERVER_OUTCOMING_PORT = 2000;
-	private static final int SERVER_INCOMING_PORT = 2000;
+	private static final int SERVER_PORT = 2000;
 
 	// Limitations for the request queues.
 	private static final int MAX_INCOMING_REQUESTS = 10;
@@ -42,8 +41,8 @@ public final class App {
 	public static void main(String[] args) {
 		// Starting service threads.
 		ExecutorService executor = Executors.newCachedThreadPool();
-		executor.execute(new IncomingRequestReceiver(SERVER_IP, SERVER_OUTCOMING_PORT, incomingRequests));
-		executor.execute(new OutcomingRequestSender(SERVER_IP, SERVER_INCOMING_PORT, outcomingRequests));
+		executor.execute(new IncomingRequestReceiver(SERVER_IP, SERVER_PORT, incomingRequests));
+		executor.execute(new OutcomingRequestSender(SERVER_IP, SERVER_PORT, outcomingRequests));
 		executor.execute(new IncomingRequestHandler());
 		executor.execute(new MessagePrinter());
 		executor.execute(new MessageReader());

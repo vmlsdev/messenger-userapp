@@ -38,29 +38,16 @@ public final class IncomingRequestReceiver implements Runnable {
 	 */
 	@Override
 	public void run() {
-		// Connecting socket to the addresser.
-		Socket socket = null;
-		try {
-			socket = new Socket(addresserIp, addresserPort);
-		} catch (UnknownHostException e) {
-			// TODO
-		} catch (IOException e) {
-			// TODO
-		}
-
-		// Creating input stream out of the addresser.
-		DataInputStream in = null;
-		try {
-			in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-		} catch (IOException e) {
-			// TODO
-		}
-
-		// Receiving requests from the addresser and putting them into the queue.
-		try {
+		try (Socket socket = new Socket(addresserIp, addresserPort)) {
+			
+			DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+			
 			while (true) {
 				incomingRequests.put(Request.decode(in));
 			}
+			
+		} catch (UnknownHostException e) {
+			// TODO
 		} catch (InterruptedException ignore) {
 			// Normal termination.
 		} catch (IOException e) {

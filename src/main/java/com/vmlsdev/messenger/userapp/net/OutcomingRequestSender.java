@@ -38,29 +38,16 @@ public final class OutcomingRequestSender implements Runnable {
 	 */
 	@Override
 	public void run() {
-		// Connecting socket to the addressee.
-		Socket socket = null;
-		try {
-			socket = new Socket(addresseeIp, addresseePort);
-		} catch (UnknownHostException e) {
-			// TODO
-		} catch (IOException e) {
-			// TODO
-		}
-
-		// Creating output stream towards the addressee.
-		DataOutputStream out = null;
-		try {
-			out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-		} catch (IOException e) {
-			// TODO
-		}
-
-		// Taking requests from the queue and sending them to the addressee.
-		try {
+		try (Socket socket = new Socket(addresseeIp, addresseePort)) {
+			
+			DataOutputStream out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			
 			while (true) {
 				Request.encode(outcomingRequests.take(), out);
 			}
+			
+		} catch (UnknownHostException e) {
+			// TODO
 		} catch (InterruptedException ignore) {
 			// Normal termination.
 		} catch (IOException e) {

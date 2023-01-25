@@ -55,7 +55,7 @@ public final class Request {
 	 * @return
 	 */
 	public static Request decode(DataInput in) throws IOException {
-		return new Request(in.readInt(), in.readInt(), in.readByte(), in.readInt(), in.readUTF());
+		return new Request(in.readInt(), in.readInt(), in.readLong(), in.readByte(), in.readInt(), in.readUTF());
 	}
 
 	/**
@@ -75,7 +75,7 @@ public final class Request {
 	/**
 	 * @return the time
 	 */
-	public int getTime() {
+	public long getTime() {
 		return time;
 	}
 

@@ -14,6 +14,7 @@ public final class Request {
 
 	private final int addresserId;
 	private final int addresseeId;
+	private final long time;
 	private final byte type;
 	private final int hash;
 	private final String message;
@@ -25,9 +26,10 @@ public final class Request {
 	 * @param hash
 	 * @param message
 	 */
-	public Request(int addresserId, int addresseeId, byte type, int hash, String message) {
+	public Request(int addresserId, int addresseeId, long time, byte type, int hash, String message) {
 		this.addresserId = addresserId;
 		this.addresseeId = addresseeId;
+		this.time = time;
 		this.type = type;
 		this.hash = hash;
 		this.message = message;
@@ -41,6 +43,7 @@ public final class Request {
 	public static void encode(Request request, DataOutput out) throws IOException {
 		out.writeInt(request.getAddresserId());
 		out.writeInt(request.getAddresseeId());
+		out.writeLong(request.getTime());
 		out.writeByte(request.getType());
 		out.writeInt(request.getHash());
 		out.writeUTF(request.getMessage());
@@ -67,6 +70,13 @@ public final class Request {
 	 */
 	public int getAddresseeId() {
 		return addresseeId;
+	}
+
+	/**
+	 * @return the time
+	 */
+	public int getTime() {
+		return time;
 	}
 
 	/**

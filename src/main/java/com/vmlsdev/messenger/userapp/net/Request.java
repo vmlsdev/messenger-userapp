@@ -3,76 +3,63 @@
  */
 package com.vmlsdev.messenger.userapp.net;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 
 /**
  * 
  */
 public final class Request {
 
-	private final Type type;
-	private final Status status;
-	private final int addressantId;
-	private final String addressantName;
+	private final int addresserId;
 	private final int addresseeId;
-	private final int serviceData;
+	private final byte type;
+	private final int hash;
 	private final String message;
-	
+
 	/**
-	 * @param type
-	 * @param status
-	 * @param addressantId
-	 * @param addressantName
+	 * @param addresserId
 	 * @param addresseeId
-	 * @param serviceData
+	 * @param type
+	 * @param hash
 	 * @param message
 	 */
-	public Request(Type type, Status status, int addressantId, String addressantName, int addresseeId, int serviceData,
-			String message) {
-		this.type = type;
-		this.status = status;
-		this.addressantId = addressantId;
-		this.addressantName = addressantName;
+	public Request(int addresserId, int addresseeId, byte type, int hash, String message) {
+		this.addresserId = addresserId;
 		this.addresseeId = addresseeId;
-		this.serviceData = serviceData;
+		this.type = type;
+		this.hash = hash;
 		this.message = message;
 	}
 
-	public static void encode(Request request, OutputStream out) {
-
-	}
-
-	public static Request decode(InputStream in) {
-		return null;
-	}
-	
 	/**
-	 * @return the type
+	 * 
+	 * @param request
+	 * @param out
 	 */
-	public Type getType() {
-		return type;
+	public static void encode(Request request, DataOutput out) throws IOException {
+		out.writeInt(request.getAddresserId());
+		out.writeInt(request.getAddresseeId());
+		out.writeByte(request.getType());
+		out.writeInt(request.getHash());
+		out.writeUTF(request.getMessage());
 	}
 
 	/**
-	 * @return the status
+	 * 
+	 * @param in
+	 * @return
 	 */
-	public Status getStatus() {
-		return status;
+	public static Request decode(DataInput in) throws IOException {
+		return new Request(in.readInt(), in.readInt(), in.readByte(), in.readInt(), in.readUTF());
 	}
 
 	/**
-	 * @return the addressantId
+	 * @return the addresserId
 	 */
-	public int getAddressantId() {
-		return addressantId;
-	}
-
-	/**
-	 * @return the addressantName
-	 */
-	public String getAddressantName() {
-		return addressantName;
+	public int getAddresserId() {
+		return addresserId;
 	}
 
 	/**
@@ -83,10 +70,17 @@ public final class Request {
 	}
 
 	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
 	 * @return the serviceData
 	 */
-	public int getServiceData() {
-		return serviceData;
+	public int getHash() {
+		return hash;
 	}
 
 	/**
@@ -96,8 +90,10 @@ public final class Request {
 		return message;
 	}
 
-	public enum Type { REGISTRATION, ACTIVIZATION, FRIENDSHIP, MESSAGE, SHUTDOWN }
-	
-	public enum Status { ACCEPTED, DECLINED, INCOMING }
-	
+	/**
+	 * 
+	 */
+	public interface Types {
+		byte SHUTDOWN = 127;
+	}
 }

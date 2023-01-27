@@ -101,7 +101,19 @@ public final class Request {
 	 */
 	public interface Types {
 		
-		byte SEND_LOCAL_LISTENING_PORT = 0;
+		// For application initializing.
+		byte USER_LOCAL_LISTENING_PORT = 0;
+		
+		
+		// For user registration.
+		
+		
+		
+		// For transporting messages between users.
+		
+		
+		
+		
 		byte SHUTDOWN = 127;
 	}
 }

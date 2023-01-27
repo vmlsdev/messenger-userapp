@@ -3,7 +3,7 @@
  */
 package com.vmlsdev.messenger.userapp.net;
 
-import static com.vmlsdev.messenger.userapp.net.Request.Types.SEND_LOCAL_LISTENING_PORT;
+import static com.vmlsdev.messenger.userapp.net.Request.Types.USER_LOCAL_LISTENING_PORT;
 
 import java.io.BufferedInputStream;
 import java.io.DataInput;
@@ -54,7 +54,7 @@ public final class RequestReceiver implements Runnable {
 				serverSocket.setSoTimeout(SO_TIMEOUT);
 
 				LocalInfo.listeningPort = serverSocket.getLocalPort();
-				requestsForSend.put(new Request(SEND_LOCAL_LISTENING_PORT, 0, LocalInfo.listeningPort, ""));
+				requestsForSend.put(new Request(USER_LOCAL_LISTENING_PORT, 0, LocalInfo.listeningPort, ""));
 
 				while (!Thread.currentThread().isInterrupted()) {
 
@@ -70,15 +70,16 @@ public final class RequestReceiver implements Runnable {
 							receivedRequests.put(receiveRequest(in));
 						}
 
-					} catch (IOException e) {
-						// TODO
+					} catch (IOException ignore) {
+						// Creating new socket.
 					}
 				}
 
-			} catch (IOException e) {
-				// TODO
-			} catch (InterruptedException ignore) {
+			} catch (IOException ignore) {
+				// Creating new server socket.
+			} catch (InterruptedException e) {
 				// Normal termination.
+				break;
 			}
 		}
 	}

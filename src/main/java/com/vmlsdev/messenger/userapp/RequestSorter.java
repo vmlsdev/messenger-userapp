@@ -6,7 +6,7 @@ package com.vmlsdev.messenger.userapp;
 /**
  *
  */
-public final class RequestHandler implements Runnable {
+public final class RequestSorter implements Runnable {
 
 	@Override
 	public void run() {

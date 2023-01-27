@@ -26,13 +26,13 @@ public final class App {
 	private static final int MAX_RECEIVED_REQUESTS = 10;
 	private static final int MAX_REQUESTS_FOR_SEND = 10;
 	private static final int MAX_SERVICE_REQUESTS = 10;
-	private static final int MAX_INCOMING_MESSAGES = 10;
+	private static final int MAX_REQUESTS_FOR_GUI = 10;
 
 	// The queues for service threads communication.
 	private static final BlockingQueue<Request> receivedRequests = new ArrayBlockingQueue<>(MAX_RECEIVED_REQUESTS);
 	private static final BlockingQueue<Request> requestsForSend = new ArrayBlockingQueue<>(MAX_REQUESTS_FOR_SEND);
 	private static final BlockingQueue<Request> serviceRequests = new ArrayBlockingQueue<>(MAX_SERVICE_REQUESTS);
-	private static final BlockingQueue<Request> incomingMessages = new ArrayBlockingQueue<>(MAX_INCOMING_MESSAGES);
+	private static final BlockingQueue<Request> requestsForGui = new ArrayBlockingQueue<>(MAX_REQUESTS_FOR_GUI);
 
 	/**
 	 * 
@@ -43,8 +43,8 @@ public final class App {
 		// Starting service threads.
 		ExecutorService executor = Executors.newCachedThreadPool();
 		executor.execute(new RequestReceiver(SERVER_IP, receivedRequests, requestsForSend));
-		executor.execute(new RequestSender());
-		executor.execute(new RequestHandler());
+		executor.execute(new RequestSender(SERVER_IP, SERVER_PORT, requestsForSend));
+		executor.execute(new RequestSorter());
 		executor.execute(new MessagePrinter());
 		executor.execute(new MessageReader());
 

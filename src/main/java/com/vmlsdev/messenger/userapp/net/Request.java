@@ -3,59 +3,55 @@
  */
 package com.vmlsdev.messenger.userapp.net;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
+import com.vmlsdev.messenger.userapp.LocalInfo;
 
 /**
  * 
  */
 public final class Request {
 
+	private final byte type;
 	private final int addresserId;
 	private final int addresseeId;
-	private final long time;
-	private final byte type;
-	private final int hash;
+	private final int token;
+	private final long sendTime;
+	private final int data;
 	private final String message;
 
 	/**
+	 * @param type
 	 * @param addresserId
 	 * @param addresseeId
-	 * @param type
-	 * @param hash
+	 * @param token
+	 * @param sendTime
+	 * @param data
 	 * @param message
 	 */
-	public Request(int addresserId, int addresseeId, long time, byte type, int hash, String message) {
+	public Request(byte type, int addresserId, int addresseeId, int token, long sendTime, int data, String message) {
+		this.type = type;
 		this.addresserId = addresserId;
 		this.addresseeId = addresseeId;
-		this.time = time;
-		this.type = type;
-		this.hash = hash;
+		this.token = LocalInfo.userToken;
+		this.sendTime = sendTime;
+		this.data = data;
 		this.message = message;
 	}
 
 	/**
-	 * 
-	 * @param request
-	 * @param out
+	 * @param type
+	 * @param addresseeId
+	 * @param data
+	 * @param message
 	 */
-	public static void encode(Request request, DataOutput out) throws IOException {
-		out.writeInt(request.getAddresserId());
-		out.writeInt(request.getAddresseeId());
-		out.writeLong(request.getTime());
-		out.writeByte(request.getType());
-		out.writeInt(request.getHash());
-		out.writeUTF(request.getMessage());
+	public Request(byte type, int addresseeId, int data, String message) {
+		this(type, LocalInfo.userId, addresseeId, LocalInfo.userToken, System.currentTimeMillis(), data, message);
 	}
 
 	/**
-	 * 
-	 * @param in
-	 * @return
+	 * @return the type
 	 */
-	public static Request decode(DataInput in) throws IOException {
-		return new Request(in.readInt(), in.readInt(), in.readLong(), in.readByte(), in.readInt(), in.readUTF());
+	public int getType() {
+		return type;
 	}
 
 	/**
@@ -73,24 +69,24 @@ public final class Request {
 	}
 
 	/**
-	 * @return the time
+	 * @return the token
 	 */
-	public long getTime() {
-		return time;
+	public int getToken() {
+		return token;
 	}
 
 	/**
-	 * @return the type
+	 * @return the time
 	 */
-	public int getType() {
-		return type;
+	public long getSendTime() {
+		return sendTime;
 	}
 
 	/**
 	 * @return the serviceData
 	 */
-	public int getHash() {
-		return hash;
+	public int getData() {
+		return data;
 	}
 
 	/**
@@ -104,6 +100,8 @@ public final class Request {
 	 * 
 	 */
 	public interface Types {
+		
+		byte SEND_LOCAL_LISTENING_PORT = 0;
 		byte SHUTDOWN = 127;
 	}
 }

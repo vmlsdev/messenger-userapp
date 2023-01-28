@@ -17,18 +17,18 @@ public final class RequestSender implements Runnable {
 
 	private static final int SO_TIMEOUT = 10000;
 
-	private final String serverIp;
-	private final int serverPort;
+	private final String adresseeIp;
+	private final int addresseePort;
 
 	private final BlockingQueue<Request> requestsForSend;
 
 	/**
-	 * @param serverIp
+	 * @param adresseeIp
 	 * @param requestForSend
 	 */
-	public RequestSender(String serverIp, int serverPort, BlockingQueue<Request> requestsForSend) {
-		this.serverIp = serverIp;
-		this.serverPort = serverPort;
+	public RequestSender(String adresseeIp, int addresseePort, BlockingQueue<Request> requestsForSend) {
+		this.adresseeIp = adresseeIp;
+		this.addresseePort = addresseePort;
 		this.requestsForSend = requestsForSend;
 	}
 
@@ -42,7 +42,7 @@ public final class RequestSender implements Runnable {
 
 		while (!Thread.currentThread().isInterrupted()) {
 
-			try (Socket socket = new Socket(serverIp, serverPort)) {
+			try (Socket socket = new Socket(adresseeIp, addresseePort)) {
 
 				socket.setSoTimeout(SO_TIMEOUT);
 				DataOutputStream out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
@@ -73,11 +73,6 @@ public final class RequestSender implements Runnable {
 	}
 
 	private void sendRequest(Request request, DataOutputStream out) throws IOException {
-		out.writeByte(request.getType());
-		out.writeInt(request.getAddresserId());
-		out.writeInt(request.getToken());
-		out.writeLong(request.getSendTime());
-		out.writeInt(request.getData());
 		out.writeUTF(request.getMessage());
 		out.flush();
 	}

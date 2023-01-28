@@ -3,18 +3,13 @@
  */
 package com.vmlsdev.messenger.userapp.net;
 
-import static com.vmlsdev.messenger.userapp.net.Request.Types.USER_LOCAL_LISTENING_PORT;
-
 import java.io.BufferedInputStream;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
-
-import com.vmlsdev.messenger.userapp.LocalInfo;
 
 /**
  *
@@ -23,22 +18,14 @@ public final class RequestReceiver implements Runnable {
 
 	private static final int SO_TIMEOUT = 10000;
 
-	// Server address for security checks.
-	private final String serverIp;
-
 	private final BlockingQueue<Request> receivedRequests;
-	private final BlockingQueue<Request> requestsForSend;
 
 	/**
-	 * @param serverIp
+	 * @param addresserIp
 	 * @param receivedRequests
-	 * @param requestsForSend
 	 */
-	public RequestReceiver(String serverIp, BlockingQueue<Request> receivedRequests,
-			BlockingQueue<Request> requestsForSend) {
-		this.serverIp = serverIp;
+	public RequestReceiver(BlockingQueue<Request> receivedRequests) {
 		this.receivedRequests = receivedRequests;
-		this.requestsForSend = requestsForSend;
 	}
 
 	/**
@@ -53,16 +40,12 @@ public final class RequestReceiver implements Runnable {
 
 				serverSocket.setSoTimeout(SO_TIMEOUT);
 
-				LocalInfo.listeningPort = serverSocket.getLocalPort();
-				requestsForSend.put(new Request(USER_LOCAL_LISTENING_PORT, 0, LocalInfo.listeningPort, ""));
+				int listeningPort = serverSocket.getLocalPort();
+				System.out.println("Your local listening port: " + listeningPort);
 
 				while (!Thread.currentThread().isInterrupted()) {
 
 					try (Socket socket = serverSocket.accept()) {
-
-						if (!checkSecurity(socket.getInetAddress())) {
-							continue;
-						}
 
 						DataInput in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 
@@ -88,14 +71,6 @@ public final class RequestReceiver implements Runnable {
 	 * 
 	 */
 	private Request receiveRequest(DataInput in) throws IOException {
-		return new Request(in.readByte(), in.readInt(), in.readInt(), in.readInt(), in.readLong(), in.readInt(),
-				in.readUTF());
-	}
-
-	/*
-	 * 
-	 */
-	private boolean checkSecurity(InetAddress ip) {
-		return serverIp.equals(ip.getHostAddress());
+		return new Request(in.readUTF());
 	}
 }

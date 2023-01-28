@@ -30,8 +30,13 @@ public final class App {
 	 */
 	public static void main(String[] args) {
 
-		//String publicIp = askForPublicIp(); if (publicIp == null) {
-		//System.out.println("Failed to get your public IP address."); return; }
+		/*
+		String publicIp = askForPublicIp();
+		if (publicIp == null) {
+			System.out.println("Failed to get your public IP address.");
+			return;
+		}
+		*/
 		
 		String publicIp = "127.0.0.1";
 
